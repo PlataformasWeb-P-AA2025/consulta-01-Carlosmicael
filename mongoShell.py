@@ -18,12 +18,12 @@ def cargar_excel_en_mongodb(ruta_archivo, anio):
 #cargar_excel_en_mongodb("data/2023.xlsx", 2023)
 
 #consulta 1 cuántos partidos terminaron con un Retired por año
-print("\n📌 Partidos terminados como 'Retired' por año:")
+print("\n Partidos terminados como 'Retired' por año:")
 for doc in collection.aggregate([{"$match": {"Comment": "Retired"}},{"$group": {"_id": "$anio", "retiros": {"$sum": 1}}}]):
     print(f"Año {doc['_id']}: {doc['retiros']} retiros")
 
 
 #consulta 2 top 5 ganadores con más victorias en 2023
-print("\n🏆 Top 5 ganadores con más partidos ganados en 2023:")
+print("\n Top 5 ganadores con más partidos ganados en 2023:")
 for doc in collection.aggregate([{"$match": {"anio": 2023}},{"$group": {"_id": "$Winner", "victorias": {"$sum": 1}}},{"$sort": {"victorias": -1}},{"$limit": 5}]):
     print(f"{doc['_id']}: {doc['victorias']} victorias")
